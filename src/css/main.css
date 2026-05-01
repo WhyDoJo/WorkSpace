@@ -10,3 +10,4 @@
 /* Подключение блоков */
 @import "./blocks/_header.css";
 @import "./blocks/_hero.css";
+@import "./blocks/_footer.css";
