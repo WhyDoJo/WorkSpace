@@ -10,15 +10,18 @@
 
 .page__body {
   min-width: 390px;
+  min-height: 100vh;
   font-family: var(--font-family);
   font-weight: 400;
-  font-size: 16px;
-  background-color: var(--color-page-bg);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-page);
 }
 
 .container {
   margin: 0 auto;
-  max-width: calc(var(--container-width) + (var(--container-offset)) * 2);
+  max-width: calc(var(--container-width) + var(--container-offset) * 2);
   padding: 0 var(--container-offset);
 }
 
@@ -60,32 +63,4 @@
 
 .stop-scroll {
   overflow: hidden;
-}
-
-a {
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  height: auto;
-  object-fit: cover;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-/* Chrome, Safari, Edge */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
 }

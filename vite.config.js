@@ -37,7 +37,10 @@ export default defineConfig({
   plugins: [
     spriteSvg(),
     handlebars({
-      partialDirectory: resolve(__dirname, "src/html/partials"),
+      partialDirectory: [
+        resolve(__dirname, "src/html/partials"),
+        resolve(__dirname, "src/html/sections"),
+      ],
       reloadOnPartialChange: true,
     }),
     htmlTypograf(),

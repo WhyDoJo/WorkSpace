@@ -5,6 +5,7 @@ import {
   writeFileSync,
   statSync,
   readFileSync,
+  copyFileSync,
 } from "fs";
 import { resolve, extname, basename, join, relative, dirname } from "path";
 import ttf2woff from "ttf2woff";
@@ -29,17 +30,52 @@ function findFontFiles(dir) {
     if (stat.isDirectory()) {
       // Рекурсивно ищем в подпапках
       fontFiles = fontFiles.concat(findFontFiles(fullPath));
-    } else if (item.endsWith(".ttf") || item.endsWith(".otf")) {
+    } else if (/\.(ttf|otf|woff2?)$/i.test(item)) {
       fontFiles.push(fullPath);
     }
   }
   return fontFiles;
 }
 
-function convertFont(inputPath, outputBaseDir) {
+function getFontMeta(inputPath) {
   const fileName = basename(inputPath, extname(inputPath));
+  const extension = extname(inputPath).toLowerCase();
   // Получаем относительный путь от src/assets/fonts
   const relativePath = relative(FONTS_DIR, dirname(inputPath));
+
+  // === ОПРЕДЕЛЕНИЕ WEIGHT И STYLE ПО ИМЕНИ ФАЙЛА ===
+  let fontWeight = "400";
+  let fontStyle = "normal";
+
+  const lowerName = fileName.toLowerCase();
+
+  if (lowerName.includes("thin")) fontWeight = "100";
+  else if (lowerName.includes("extralight")) fontWeight = "200";
+  else if (lowerName.includes("light")) fontWeight = "300";
+  else if (lowerName.includes("medium")) fontWeight = "500";
+  else if (lowerName.includes("semibold")) fontWeight = "600";
+  else if (lowerName.includes("bold")) fontWeight = "700";
+  else if (lowerName.includes("extrabold")) fontWeight = "800";
+  else if (lowerName.includes("black")) fontWeight = "900";
+
+  if (lowerName.includes("italic") || lowerName.includes("oblique")) {
+    fontStyle = "italic";
+  }
+
+  return {
+    fileName,
+    extension,
+    relativePath,
+    path: relativePath ? `${relativePath}/${fileName}` : fileName,
+    family: relativePath || "Default",
+    weight: fontWeight,
+    style: fontStyle,
+  };
+}
+
+function convertFont(inputPath, outputBaseDir) {
+  const meta = getFontMeta(inputPath);
+  const { fileName, extension, relativePath } = meta;
   const outputDir = relativePath
     ? join(outputBaseDir, relativePath)
     : outputBaseDir;
@@ -52,51 +88,37 @@ function convertFont(inputPath, outputBaseDir) {
   try {
     console.log(`Обработка файла: ${inputPath}`);
 
-    // Читаем исходный шрифт
-    const fontBuffer = readFileSync(inputPath);
+    if (extension === ".ttf" || extension === ".otf") {
+      // Читаем исходный шрифт
+      const fontBuffer = readFileSync(inputPath);
 
-    // Конвертация в WOFF2
-    const woff2Output = resolve(outputDir, `${fileName}.woff2`);
-    const woff2 = ttf2woff2(fontBuffer);
-    writeFileSync(woff2Output, Buffer.from(woff2));
-    console.log(
-      `✅ Converted: ${relativePath ? relativePath + "/" : ""}${fileName}.woff2`
-    );
+      // Конвертация в WOFF2
+      const woff2Output = resolve(outputDir, `${fileName}.woff2`);
+      const woff2 = ttf2woff2(fontBuffer);
+      writeFileSync(woff2Output, Buffer.from(woff2));
+      console.log(
+        `✅ Converted: ${relativePath ? relativePath + "/" : ""}${fileName}.woff2`
+      );
 
-    // Конвертация в WOFF
-    const woffOutput = resolve(outputDir, `${fileName}.woff`);
-    const woff = ttf2woff(fontBuffer).buffer;
-    writeFileSync(woffOutput, Buffer.from(woff));
-    console.log(
-      `✅ Converted: ${relativePath ? relativePath + "/" : ""}${fileName}.woff`
-    );
-
-    // === ОПРЕДЕЛЕНИЕ WEIGHT И STYLE ПО ИМЕНИ ФАЙЛА ===
-    let fontWeight = "400";
-    let fontStyle = "normal";
-
-    const lowerName = fileName.toLowerCase();
-
-    if (lowerName.includes("thin")) fontWeight = "100";
-    else if (lowerName.includes("extralight")) fontWeight = "200";
-    else if (lowerName.includes("light")) fontWeight = "300";
-    else if (lowerName.includes("medium")) fontWeight = "500";
-    else if (lowerName.includes("semibold")) fontWeight = "600";
-    else if (lowerName.includes("bold")) fontWeight = "700";
-    else if (lowerName.includes("extrabold")) fontWeight = "800";
-    else if (lowerName.includes("black")) fontWeight = "900";
-    // по умолчанию 400
-
-    if (lowerName.includes("italic") || lowerName.includes("oblique")) {
-      fontStyle = "italic";
+      // Конвертация в WOFF
+      const woffOutput = resolve(outputDir, `${fileName}.woff`);
+      const woff = ttf2woff(fontBuffer).buffer;
+      writeFileSync(woffOutput, Buffer.from(woff));
+      console.log(
+        `✅ Converted: ${relativePath ? relativePath + "/" : ""}${fileName}.woff`
+      );
+    } else if (extension === ".woff" || extension === ".woff2") {
+      const outputPath = resolve(outputDir, `${fileName}${extension}`);
+      copyFileSync(inputPath, outputPath);
+      console.log(
+        `✅ Copied: ${relativePath ? relativePath + "/" : ""}${fileName}${extension}`
+      );
     }
 
     return {
-      name: fileName,
-      path: relativePath ? `${relativePath}/${fileName}` : fileName,
-      family: relativePath || "Default",
-      weight: fontWeight,
-      style: fontStyle,
+      ...meta,
+      hasWoff: extension === ".woff",
+      hasWoff2: extension === ".woff2",
     };
   } catch (error) {
     console.error(`❌ Error converting ${fileName}:`, error.message);
@@ -105,13 +127,40 @@ function convertFont(inputPath, outputBaseDir) {
 }
 
 function generateFontCSS(convertedFonts) {
-  const fontFaces = convertedFonts
-    .filter(Boolean)
+  const groupedFonts = new Map();
+
+  for (const font of convertedFonts.filter(Boolean)) {
+    const key = `${font.path}-${font.weight}-${font.style}-${font.family}`;
+    if (!groupedFonts.has(key)) {
+      groupedFonts.set(key, {
+        ...font,
+        hasWoff: false,
+        hasWoff2: false,
+      });
+    }
+
+    const item = groupedFonts.get(key);
+    if (font.extension === ".ttf" || font.extension === ".otf") {
+      item.hasWoff = true;
+      item.hasWoff2 = true;
+    }
+    if (font.extension === ".woff") item.hasWoff = true;
+    if (font.extension === ".woff2") item.hasWoff2 = true;
+  }
+
+  const fontFaces = Array.from(groupedFonts.values())
     .map((font) => {
+      const srcParts = [];
+      if (font.hasWoff2) {
+        srcParts.push(`url('/fonts/${font.path}.woff2') format('woff2')`);
+      }
+      if (font.hasWoff) {
+        srcParts.push(`url('/fonts/${font.path}.woff') format('woff')`);
+      }
+
       return `@font-face {
   font-family: '${font.family}';
-  src: url('/fonts/${font.path}.woff2') format('woff2'),
-       url('/fonts/${font.path}.woff') format('woff');
+  src: ${srcParts.join(",\n       ")};
   font-weight: ${font.weight};
   font-style: ${font.style};
   font-display: swap;
@@ -135,7 +184,7 @@ function convertFonts() {
 
   if (fontFiles.length === 0) {
     console.log(
-      "No font files found in src/assets/fonts/ (including subdirectories)"
+      "No font files found in src/assets/fonts/ (supported: .ttf, .otf, .woff, .woff2)"
     );
     return;
   }
