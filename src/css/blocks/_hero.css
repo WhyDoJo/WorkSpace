@@ -1,0 +1,36 @@
+.hero {
+  padding-top: 60px;
+  padding-bottom: 50px;
+
+  &__container {
+    position: relative;
+    padding: 57px 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: -39px;
+      top: 0;
+      width: 421px;
+      height: 330px;
+      background: url("/src/assets/img/hero.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
+
+  &__title {
+    max-width: 780px;
+    font-size: 90px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+
+    &-accent {
+      color: #2a18ff;
+      font-size: 90px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+  }
+}

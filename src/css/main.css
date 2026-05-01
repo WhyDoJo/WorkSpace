@@ -6,7 +6,7 @@
 
 /* Подключение компонентов */
 @import "./components/_btn.css";
-@import "./components/_nav.css";
 
 /* Подключение блоков */
 @import "./blocks/_header.css";
+@import "./blocks/_hero.css";
