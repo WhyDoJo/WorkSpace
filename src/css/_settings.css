@@ -1,0 +1,91 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.page {
+  line-height: 1.5;
+}
+
+.page__body {
+  min-width: 390px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  background-color: var(--color-page-bg);
+}
+
+.container {
+  margin: 0 auto;
+  max-width: calc(var(--container-width) + (var(--container-offset)) * 2);
+  padding: 0 var(--container-offset);
+}
+
+.list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.btn-reset {
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gap);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
+
+.stop-scroll {
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  height: auto;
+  object-fit: cover;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

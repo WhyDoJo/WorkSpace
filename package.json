@@ -1,0 +1,42 @@
+{
+  "name": "vite-project",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bunx vite",
+    "build": "bunx vite build",
+    "build:zip": "bun run build && bun run zip",
+    "preview": "bunx vite preview",
+    "zip": "node scripts/zip-build.js",
+    "convert-fonts": "node scripts/convert-fonts.js",
+    "convert-images": "node scripts/convert-images.js && node scripts/convert-svg.js",
+    "lint:css": "bunx stylelint \"src/css/**/*.css\"",
+    "lint:css:fix": "bunx stylelint \"src/css/**/*.css\" --fix"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "archiver": "^7.0.1",
+    "cheerio": "^1.2.0",
+    "postcss": "^8.5.6",
+    "postcss-nested": "^7.0.2",
+    "prettier": "^3.8.1",
+    "sharp": "^0.34.5",
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard": "^39.0.1",
+    "svg-sprite": "^2.0.4",
+    "svgo": "^4.0.1",
+    "terser": "^5.44.1",
+    "typograf": "^7.4.0",
+    "vite": "^7.2.7",
+    "vite-plugin-handlebars": "^2.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "dependencies": {
+    "ttf2woff": "^3.0.0",
+    "ttf2woff2": "^8.0.0"
+  }
+}

@@ -1,0 +1,25 @@
+:root {
+  /* COLORS */
+  /* Base */
+  --color-bg-page: #f3f4f8;
+  --color-bg-surface: #ffffff;
+  --color-bg-soft: #eaecff;
+
+  /* Text */
+  --color-text-primary: #171717;
+  --color-text-secondary: #cccccc;
+  --color-text-on-accent: #ffffff;
+  
+  /* Brand / Accent */
+  --color-accent: #2a18ff; /* яркий акцент (синий заголовок) */
+  --color-accent-hover: #1e22aa; /* темнее для hover/active */
+  --color-accent-soft: #a6adff; /* мягкий акцент (кнопки/теги/фон) */
+
+  /* CONTAINER */
+  --container-width: 1180px;
+  --container-offset: 15px;
+  --gap: 20px;
+
+  /* Подключение шрифтов */
+  --font-family: "Inter", sans-serif;
+}
