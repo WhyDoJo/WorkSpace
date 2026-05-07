@@ -1,0 +1,35 @@
+.vacancy {
+  min-height: 100%;
+  padding: 16px;
+  background-color: var(--color-bg-surface);
+  border-radius: 16px;
+  cursor: pointer;
+
+  &__picture {
+    margin-bottom: 12px;
+  }
+
+  &__company {
+    color: var(--color-text-primary);
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  &__role {
+    padding: 3px 5px;
+    display: inline-block;
+    border-radius: 4px;
+    background: var(--color-bg-soft);
+    margin-bottom: 8px;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__field {
+    color: #ccc;
+    font-size: 14px;
+  }
+}

@@ -49,16 +49,4 @@
     color: var(--color-text-primary);
     background-color: var(--color-bg-soft);
   }
-
-  &--lg {
-    font-size: 20px;
-    padding: 12px 32px;
-    border-radius: 8px;
-  }
-
-  &--sm {
-    font-size: 14px;
-    padding: 7px 24px;
-    border-radius: 4px;
-  }
 }

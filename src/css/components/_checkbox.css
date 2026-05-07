@@ -1,0 +1,45 @@
+.checkbox {
+  position: relative;
+  display: block;
+  line-height: 20px;
+  padding-left: 28px;
+
+  &__input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    background-color: #fff;
+    border-radius: 4px;
+    background-color: 0.3s ease-in-out;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("../../assets/icons/check.svg") no-repeat center;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    &:checked::after {
+      opacity: 1;
+    }
+
+    &:checked {
+      background-color: #c7ced2;
+    }
+
+    &:focus-visible {
+      outline: 2px dashed var(--color-accent);
+      outline-offset: 3px;
+    }
+
+    &:disabled {
+      background-color: var(--color-bg-disabled);
+    }
+  }
+}

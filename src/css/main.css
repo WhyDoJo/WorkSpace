@@ -4,10 +4,19 @@
 @import "./_vars.css";
 @import "./_settings.css";
 
+/* Подключение библиотек */
+@import "./libs/choices.min.css";
+
 /* Подключение компонентов */
 @import "./components/_btn.css";
+@import "./components/_checkbox.css";
 
 /* Подключение блоков */
 @import "./blocks/_header.css";
 @import "./blocks/_hero.css";
+@import "./blocks/_vacancies.css";
+@import "./blocks/_filter.css";
+@import "./blocks/_cards.css";
+@import "./blocks/_vacancy.css";
+@import "./blocks/_choices.css";
 @import "./blocks/_footer.css";

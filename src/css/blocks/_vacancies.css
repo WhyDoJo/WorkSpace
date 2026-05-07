@@ -1,0 +1,21 @@
+.vacancies {
+  padding-top: 50px;
+
+  &__container {
+    display: flex;
+    align-items: start;
+    gap: 24px 20px;
+  }
+
+  &__filter {
+    flex: 0 0 280px;
+
+    &-btn {
+      display: none;
+    }
+  }
+
+  &__cards {
+    flex-basis: 100%;
+  }
+}
