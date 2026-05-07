@@ -19,7 +19,7 @@ function htmlTypograf() {
 export default defineConfig({
   server: {
     port: 3000,
-    open: "/src/html/pages/index.html",
+    open: "/",
   },
   build: {
     outDir: "dist",
@@ -30,7 +30,7 @@ export default defineConfig({
     },
     rollupOptions: {
       input: {
-        index: resolve(__dirname, "src/html/pages/index.html"),
+        index: resolve(__dirname, "index.html"),
       },
     },
   },
