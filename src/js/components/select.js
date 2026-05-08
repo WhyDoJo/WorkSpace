@@ -1,5 +1,6 @@
 const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations";
+const VACANCY_URL = "api/vacancy";
 
 const getData = async (url, cbSuccess, cbError) => {
   try {
@@ -13,7 +14,9 @@ const getData = async (url, cbSuccess, cbError) => {
 
 const init = () => {
   const citySelect = document.querySelector("#city");
-  const cityChoices = new Choices(citySelect, {
+  if (!citySelect || !window.Choices) return;
+
+  const cityChoices = new window.Choices(citySelect, {
     searchEnabled: false,
     itemSelectText: "",
     shouldSort: false,
