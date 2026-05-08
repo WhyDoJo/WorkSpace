@@ -25,7 +25,10 @@ const init = () => {
   getData(
     `${API_URL}${LOCATION_URL}`,
     (locationData) => {
-      const locations = locationData.map((location) => ({ value: location }));
+      const locations = locationData.map((location) => ({
+        value: location,
+        label: location,
+      }));
       cityChoices.setChoices(locations, "value", "label", true);
     },
     (err) => {
