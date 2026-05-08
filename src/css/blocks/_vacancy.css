@@ -6,6 +6,11 @@
   cursor: pointer;
 
   &__picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     margin-bottom: 12px;
   }
 
