@@ -58,9 +58,7 @@ const renderError = (err) => {
   console.warn(err);
 };
 
-const init = () => {
-  const cardsList = document.querySelector(".cards__list");
-
+const initSelect = () => {
   const citySelect = document.querySelector("#city");
   if (!citySelect || !window.Choices) return;
 
@@ -83,8 +81,11 @@ const init = () => {
       console.log(err);
     }
   );
+};
 
-  // cards
+const initVacancies = () => {
+  const cardsList = document.querySelector(".cards__list");
+  if (!cardsList) return;
 
   const url = new URL(`${API_URL}${VACANCY_URL}`);
 
@@ -97,4 +98,5 @@ const init = () => {
   );
 };
 
-init();
+initSelect();
+initVacancies();
