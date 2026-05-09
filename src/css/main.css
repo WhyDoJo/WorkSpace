@@ -10,8 +10,10 @@
 /* Подключение компонентов */
 @import "./components/_btn.css";
 @import "./components/_checkbox.css";
+@import "./components/_modal.css";
 
 /* Подключение блоков */
+@import "./blocks/_detail.css";
 @import "./blocks/_header.css";
 @import "./blocks/_hero.css";
 @import "./blocks/_vacancies.css";

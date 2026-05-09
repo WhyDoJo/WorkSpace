@@ -30,7 +30,7 @@ const createCard = (vacancy) => `
             <h3 class="vacancy__company">${vacancy.company}</h3>
             <span class="vacancy__role">${vacancy.title}</span>
 
-            <ul class="vacancy__fields">
+            <ul class="vacancy__fields" >
               <li class="vacancy__field">от ${parseInt(vacancy.salary).toLocaleString("ru-RU")}₽</li>
               <li class="vacancy__field">${vacancy.format}</li>
               <li class="vacancy__field">${vacancy.type}</li>
@@ -47,10 +47,7 @@ const createCards = (data) =>
     return li;
   });
 
-const renderVacancy = (data) => {
-  const cardsList = document.querySelector(".cards__list");
-  if (!cardsList) return;
-
+const renderVacancy = (data, cardsList) => {
   cardsList.textContent = "";
 
   const cards = createCards(data);
@@ -62,6 +59,8 @@ const renderError = (err) => {
 };
 
 const init = () => {
+  const cardsList = document.querySelector(".cards__list");
+
   const citySelect = document.querySelector("#city");
   if (!citySelect || !window.Choices) return;
 
@@ -89,7 +88,13 @@ const init = () => {
 
   const url = new URL(`${API_URL}${VACANCY_URL}`);
 
-  getData(url, renderVacancy, renderError);
+  getData(
+    url,
+    (data) => {
+      renderVacancy(data, cardsList);
+    },
+    renderError
+  );
 };
 
 init();

@@ -39,6 +39,7 @@ export default defineConfig({
     handlebars({
       partialDirectory: [
         resolve(__dirname, "src/html/partials"),
+        resolve(__dirname, "src/html/components"),
         resolve(__dirname, "src/html/sections"),
       ],
       reloadOnPartialChange: true,

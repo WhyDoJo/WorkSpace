@@ -1,0 +1,41 @@
+.modal {
+  position: fixed;
+  display: flex;
+  padding: 30px;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  overflow-y: auto;
+  display: flex;
+  z-index: 10;
+
+  &__main {
+    position: relative;
+    margin: auto;
+    cursor: default;
+  }
+
+  &__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    outline: 1px solid transparent;
+    cursor: pointer;
+
+    &-icon {
+      width: 20px;
+      height: 20px;
+      fill: #ccc;
+      transition: fill 0.3s ease-in-out;
+
+      &:hover {
+        fill: var(--color-text-primary);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px dashed var(--color-accent);
+      outline-offset: 3px;
+    }
+  }
+}
